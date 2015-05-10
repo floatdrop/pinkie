@@ -1,0 +1,62 @@
+# pinkie [![Build Status](https://travis-ci.org/floatdrop/pinkie.svg?branch=master)](https://travis-ci.org/floatdrop/pinkie)
+
+> Sweetly small [ES6 Promise](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-promise-objects) implementation
+
+
+## Install
+
+```
+$ npm install --save pinkie
+```
+
+
+## Usage
+
+```js
+var Promise = require('pinkie');
+
+new Promise(function (resolve, reject) {
+	got('google.com', function (err, data) {
+		if (err) {
+			return reject(err);
+		}
+
+		resolve(data);
+	});
+});
+//=> Promise
+```
+
+
+### API
+
+#### new pinkie(executor)
+
+Returns new instance of `Promise`.
+
+##### executor
+
+*Required*  
+Type: `function`
+
+Function with two arguments resolve and reject. The first argument fulfills the promise, the second argument rejects it.
+
+#### pinkie.all(promises)
+
+Returns a promise that resolves when all of the promises in the `promises` argument have resolved.
+
+#### pinkie.race(promises)
+
+Returns a promise that resolves or rejects as soon as one of the promises in the `promises` resolves or rejects, with the value or reason from that promise.
+
+#### pinkie.reject(reason)
+
+Returns a Promise object that is rejected with the given `reason`.
+
+#### pinkie.resolve(value)
+
+Returns a Promise object that is resolved with the given `value`. If the `value` is a thenable (i.e. has a then method), the returned promise will "follow" that thenable, adopting its eventual state; otherwise the returned promise will be fulfilled with the `value`.
+
+## License
+
+MIT © [Vsevolod Strukchinsky](http://github.com/floatdrop)
