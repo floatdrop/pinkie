@@ -45,11 +45,11 @@ Function with two arguments resolve and reject. The first argument fulfills the 
 
 #### pinkie.all(promises)
 
-Returns a promise that resolves when all of the promises in the `promises` argument have resolved.
+Returns a promise that resolves when all of the promises in the `promises` Array argument have resolved.
 
 #### pinkie.race(promises)
 
-Returns a promise that resolves or rejects as soon as one of the promises in the `promises` resolves or rejects, with the value or reason from that promise.
+Returns a promise that resolves or rejects as soon as one of the promises in the `promises` Array resolves or rejects, with the value or reason from that promise.
 
 #### pinkie.reject(reason)
 
