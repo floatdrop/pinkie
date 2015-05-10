@@ -30,7 +30,9 @@ new Promise(function (resolve, reject) {
 
 ### API
 
-#### new pinkie(executor)
+`pinkie` exports bare [ES6 Promise](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-promise-objects) implementation. In case you forgot:
+
+#### new Promise(executor)
 
 Returns new instance of `Promise`.
 
