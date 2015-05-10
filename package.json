@@ -1,7 +1,7 @@
 {
   "name": "pinkie",
   "version": "0.0.0",
-  "description": "Sweetly small promises/a+ implementation",
+  "description": "Itty bitty little wittle twinkie pinkie ES6 Promise implementation",
   "license": "MIT",
   "repository": "floatdrop/pinkie",
   "author": {
