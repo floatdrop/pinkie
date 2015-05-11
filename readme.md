@@ -1,6 +1,17 @@
-# pinkie [![Build Status](https://travis-ci.org/floatdrop/pinkie.svg?branch=master)](https://travis-ci.org/floatdrop/pinkie)
+<h1 align="center">
+	<br>
+	<img width="300" src="https://rawgit.com/floatdrop/pinkie/master/media/logo.png" alt="pinkie">
+	<br>
+	<br>
+</h1>
 
 > Itty bitty little wittle twinkie pinkie [ES6 Promise](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-promise-objects) implementation
+
+[![Build Status](https://travis-ci.org/floatdrop/pinkie.svg?branch=master)](https://travis-ci.org/floatdrop/pinkie)
+
+There are [tons of Promise implementations](https://github.com/sorrycc/awesome-javascript#control-flow) out there, but all of them focused on browser compatibility and often bloated with functionality.
+
+This module focused to be exactly Promise specification polyfill (like [native-promise-only](https://github.com/getify/native-promise-only)), but in NodeJS land (it should be browserify-able thou).
 
 
 ## Install
