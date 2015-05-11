@@ -161,7 +161,7 @@ function publishRejection(promise) {
  */
 function Promise(resolver) {
 	if (typeof resolver !== 'function') {
-		throw new TypeError('Promise constructor takes a function argument');
+		throw new TypeError('Promise resolver ' + resolver + ' is not a function');
 	}
 
 	if (this instanceof Promise === false) {
