@@ -1,6 +1,6 @@
 <h1 align="center">
 	<br>
-	<img width="300" src="https://rawgit.com/floatdrop/pinkie/master/media/logo.png" alt="pinkie">
+	<img width="256" src="https://rawgit.com/floatdrop/pinkie/master/media/logo.png" alt="pinkie">
 	<br>
 	<br>
 </h1>
