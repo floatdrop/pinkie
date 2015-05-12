@@ -5,7 +5,7 @@
 	<br>
 </h1>
 
-> Itty bitty little wittle twinkie pinkie [ES6 Promise](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-promise-objects) implementation
+> Itty bitty little widdle twinkie pinkie [ES6 Promise](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-promise-objects) implementation
 
 [![Build Status](https://travis-ci.org/floatdrop/pinkie.svg?branch=master)](https://travis-ci.org/floatdrop/pinkie)
 
