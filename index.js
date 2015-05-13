@@ -6,8 +6,6 @@ var FULFILLED = 'fulfilled';
 var REJECTED = 'rejected';
 var NOOP = function () {};
 
-// async calls
-var asyncSetTimer = typeof setImmediate !== 'undefined' ? setImmediate : setTimeout;
 var asyncQueue = [];
 var asyncTimer;
 
@@ -27,7 +25,7 @@ function asyncCall(callback, arg) {
 
 	if (!asyncTimer) {
 		asyncTimer = true;
-		asyncSetTimer(asyncFlush, 0);
+		setImmediate(asyncFlush, 0);
 	}
 }
 
