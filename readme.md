@@ -9,7 +9,7 @@
 
 [![Build Status](https://travis-ci.org/floatdrop/pinkie.svg?branch=master)](https://travis-ci.org/floatdrop/pinkie)
 
-There are [tons of Promise implementations](https://github.com/sorrycc/awesome-javascript#control-flow) out there, but all of them focused on browser compatibility and often bloated with functionality.
+There are [tons of Promise implementations](https://github.com/promises-aplus/promises-spec/blob/master/implementations.md#standalone) out there, but all of them focused on browser compatibility and often bloated with functionality.
 
 This module focused to be exactly Promise specification polyfill (like [native-promise-only](https://github.com/getify/native-promise-only)), but in NodeJS land (it should be browserify-able thou).
 
