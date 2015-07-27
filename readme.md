@@ -52,7 +52,7 @@ Returns new instance of `Promise`.
 *Required*  
 Type: `function`
 
-Function with two arguments resolve and reject. The first argument fulfills the promise, the second argument rejects it.
+Function with two arguments `resolve` and `reject`. The first argument fulfills the promise, the second argument rejects it.
 
 #### pinkie.all(promises)
 
