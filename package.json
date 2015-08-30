@@ -1,7 +1,7 @@
 {
   "name": "pinkie",
   "version": "1.0.0",
-  "description": "Itty bitty little widdle twinkie pinkie ES6 Promise implementation",
+  "description": "Itty bitty little widdle twinkie pinkie ES2015 Promise implementation",
   "license": "MIT",
   "repository": "floatdrop/pinkie",
   "author": {
@@ -20,9 +20,10 @@
   ],
   "keywords": [
     "promise",
+    "promises",
+    "es2015",
     "es6"
   ],
-  "dependencies": {},
   "devDependencies": {
     "mocha": "*",
     "promises-aplus-tests": "*"
