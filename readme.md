@@ -1,6 +1,6 @@
 <h1 align="center">
 	<br>
-	<img width="256" src="https://rawgit.com/floatdrop/pinkie/master/media/logo.png" alt="pinkie">
+	<img width="256" src="media/logo.png" alt="pinkie">
 	<br>
 	<br>
 </h1>
@@ -9,9 +9,9 @@
 
 [![Build Status](https://travis-ci.org/floatdrop/pinkie.svg?branch=master)](https://travis-ci.org/floatdrop/pinkie)
 
-There are [tons of Promise implementations](https://github.com/promises-aplus/promises-spec/blob/master/implementations.md#standalone) out there, but all of them focused on browser compatibility and often bloated with functionality.
+There are [tons of Promise implementations](https://github.com/promises-aplus/promises-spec/blob/master/implementations.md#standalone) out there, but all of them focus on browser compatibility and are often bloated with functionality.
 
-This module focused to be exactly Promise specification polyfill (like [native-promise-only](https://github.com/getify/native-promise-only)), but in NodeJS land (it should be browserify-able thou).
+This module is an exact Promise specification polyfill (like [native-promise-only](https://github.com/getify/native-promise-only)), but in Node.js land (it should be browserify-able though).
 
 
 ## Install
@@ -24,12 +24,14 @@ $ npm install --save pinkie
 ## Usage
 
 ```js
+var fs = require('fs');
 var Promise = require('pinkie');
 
 new Promise(function (resolve, reject) {
-	got('google.com', function (err, data) {
+	fs.readFile('foo.json', 'utf8', function (err, data) {
 		if (err) {
-			return reject(err);
+			reject(err);
+			return;
 		}
 
 		resolve(data);
@@ -69,6 +71,12 @@ Returns a Promise object that is rejected with the given `reason`.
 #### pinkie.resolve(value)
 
 Returns a Promise object that is resolved with the given `value`. If the `value` is a thenable (i.e. has a then method), the returned promise will "follow" that thenable, adopting its eventual state; otherwise the returned promise will be fulfilled with the `value`.
+
+
+## Related
+
+- [pinkie-promise](https://github.com/floatdrop/pinkie-promise) - Returns the native Promise or this module
+
 
 ## License
 
