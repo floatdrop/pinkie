@@ -13,7 +13,8 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "nyc mocha",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "files": [
     "index.js"
@@ -25,7 +26,9 @@
     "es6"
   ],
   "devDependencies": {
+    "coveralls": "^2.11.4",
     "mocha": "*",
+    "nyc": "^3.2.2",
     "promises-aplus-tests": "*"
   }
 }
