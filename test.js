@@ -6,15 +6,59 @@ var assert = require('assert');
 var Promise = require('./');
 
 describe('Promise', function () {
+	it('should throw without new', function () {
+		assert.throws(function () {
+			/* eslint-disable new-cap */
+			var promise = Promise(function () {});
+			/* eslint-enable new-cap */
+			assert.ok(promise);
+		}, /Failed to construct 'Promise': Please use the 'new' operator, this object constructor cannot be called as a function\./);
+	});
+
 	it('should throw on invalid resolver type', function () {
 		assert.throws(function () {
 			var promise = new Promise('unicorns');
 			assert.ok(promise);
 		}, /Promise resolver unicorns is not a function/);
 	});
+
+	it('should reject on exception in resolver', function (done) {
+		new Promise(function () {
+			throw new Error('Bang!');
+		})
+		.catch(function (err) {
+			assert.equal(err.message, 'Bang!');
+			done();
+		});
+	});
+
+	it('should reject on exception in then', function (done) {
+		Promise.resolve(1)
+			.then(function () {
+				throw new Error('Bang!');
+			})
+			.catch(function (err) {
+				assert.equal(err.message, 'Bang!');
+				done();
+			});
+	});
+
+	it('should return Promise from resolve value', function (done) {
+		Promise.resolve(Promise.resolve(1))
+			.then(function (value) {
+				assert.equal(value, 1);
+				done();
+			});
+	});
 });
 
 describe('Promise.all', function () {
+	it('should throw error on invalid argument', function () {
+		assert.throws(function () {
+			Promise.all('unicorns');
+		}, /You must pass an array to Promise.all()./);
+	});
+
 	it('should resolve empty array to empty array', function (done) {
 		Promise.all([]).then(function (value) {
 			assert.deepEqual(value, []);
@@ -53,6 +97,12 @@ function delayedResolve() {
 }
 
 describe('Promise.race', function () {
+	it('should throw error on invalid argument', function () {
+		assert.throws(function () {
+			Promise.race('unicorns');
+		}, /You must pass an array to Promise.race()./);
+	});
+
 	it('empty array should be pending', function (done) {
 		var p = Promise.race([]);
 		setTimeout(function () {
