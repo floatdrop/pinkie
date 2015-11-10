@@ -6,7 +6,7 @@ var FULFILLED = 'fulfilled';
 var REJECTED = 'rejected';
 var NOOP = function () {};
 
-var asyncSetTimer = typeof setImmediate !== 'undefined' ? setImmediate : setTimeout;
+var asyncSetTimer = typeof setImmediate === 'undefined' ? setTimeout : setImmediate;
 var asyncQueue = [];
 var asyncTimer;
 
@@ -82,17 +82,18 @@ function handleThenable(promise, value) {
 		}
 
 		if (value && (typeof value === 'function' || typeof value === 'object')) {
-			var then = value.then; // then should be retrived only once
+			// then should be retrived only once
+			var then = value.then;
 
 			if (typeof then === 'function') {
 				then.call(value, function (val) {
 					if (!resolved) {
 						resolved = true;
 
-						if (value !== val) {
-							resolve(promise, val);
-						} else {
+						if (value === val) {
 							fulfill(promise, val);
+						} else {
+							resolve(promise, val);
 						}
 					}
 				}, function (reason) {
@@ -198,7 +199,7 @@ Promise.prototype = {
 		return subscriber.then;
 	},
 
-	'catch': function (onRejection) {
+	catch: function (onRejection) {
 		return this.then(null, onRejection);
 	}
 };

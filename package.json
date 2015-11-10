@@ -13,7 +13,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "nyc mocha",
+    "test": "xo && nyc mocha",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "files": [
@@ -29,6 +29,7 @@
     "coveralls": "^2.11.4",
     "mocha": "*",
     "nyc": "^3.2.2",
-    "promises-aplus-tests": "*"
+    "promises-aplus-tests": "*",
+    "xo": "^0.10.1"
   }
 }
