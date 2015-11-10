@@ -82,7 +82,7 @@ function handleThenable(promise, value) {
 		}
 
 		if (value && (typeof value === 'function' || typeof value === 'object')) {
-			// then should be retrived only once
+			// then should be retrieved only once
 			var then = value.then;
 
 			if (typeof then === 'function') {
