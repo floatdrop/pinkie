@@ -50,6 +50,20 @@ describe('Promise', function () {
 				done();
 			});
 	});
+
+	// Is it really so? Seems like a bug
+	it('should resolve thenable in resolve', function (done) {
+		var thenable = {
+			then: function (cb) {
+				cb(thenable);
+			}
+		};
+
+		Promise.resolve(thenable).then(function (v) {
+			assert.equal(thenable, v);
+			done();
+		});
+	});
 });
 
 describe('Promise.all', function () {
