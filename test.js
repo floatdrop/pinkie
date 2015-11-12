@@ -1,4 +1,4 @@
-/* global describe, it */
+/* global describe, it, beforeEach, afterEach*/
 
 'use strict';
 
@@ -168,4 +168,70 @@ describe('Promises/A+ Tests', function () {
 	};
 
 	require('promises-aplus-tests').mocha(adapter);
+});
+
+describe('unhandledRejection/rejectionHandled events', function () {
+	var slice = Array.prototype.slice;
+	var events;
+
+	function onUnhandledRejection(reason) {
+		var args = slice.call(arguments);
+		if (reason && reason.message) {
+			args[0] = reason.message;
+		}
+		events.push(['unhandledRejection', args]);
+	}
+
+	function onRejectionHandled() {
+		events.push(['rejectionHandled', slice.call(arguments)]);
+	}
+
+	beforeEach(function () {
+		events = [];
+		process.on('unhandledRejection', onUnhandledRejection);
+		process.on('rejectionHandled', onRejectionHandled);
+	});
+
+	afterEach(function () {
+		process.removeListener('unhandledRejection', onUnhandledRejection);
+		process.removeListener('rejectionHandled', onRejectionHandled);
+	});
+
+	it('should emit an unhandledRejection on the next turn', function (done) {
+		var promise = Promise.reject(new Error('next'));
+		assert.deepEqual(events, []);
+		nextLoop(function () {
+			assert.deepEqual(events, [
+				['unhandledRejection', ['next', promise]]
+			]);
+			done();
+		});
+	});
+
+	it('should not emit any events if handled before the next turn', function (done) {
+		var promise = Promise.reject(new Error('handled immediately after rejection'));
+		promise.catch(function () {});
+		nextLoop(function () {
+			assert.deepEqual(events, []);
+			done();
+		});
+	});
+
+	it('should emit a rejectionHandled event if handledLater', function (done) {
+		var promise = Promise.reject(new Error('eventually handled'));
+		nextLoop(function () {
+			promise.catch(function () {});
+			nextLoop(function () {
+				assert.deepEqual(events, [
+					['unhandledRejection', ['eventually handled', promise]],
+					['rejectionHandled', [promise]]
+				]);
+				done();
+			});
+		});
+	});
+
+	function nextLoop(fn) {
+		setTimeout(fn, 0);
+	}
 });
