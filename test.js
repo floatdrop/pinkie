@@ -211,7 +211,7 @@ describe('unhandledRejection/rejectionHandled events', function () {
 	});
 
 	function nextLoop(fn) {
-		setTimeout(fn, 0);
+		setImmediate(fn);
 	}
 });
 
