@@ -1,6 +1,6 @@
 {
   "name": "pinkie",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Itty bitty little widdle twinkie pinkie ES2015 Promise implementation",
   "license": "MIT",
   "repository": "floatdrop/pinkie",
