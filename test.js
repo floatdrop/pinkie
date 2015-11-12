@@ -149,27 +149,6 @@ describe('Promise.race', function () {
 	});
 });
 
-describe('Promises/A+ Tests', function () {
-	var adapter = {
-		deferred: function () {
-			var resolve;
-			var reject;
-			var promise = new Promise(function (res, rej) {
-				resolve = res;
-				reject = rej;
-			});
-
-			return {
-				promise: promise,
-				resolve: resolve,
-				reject: reject
-			};
-		}
-	};
-
-	require('promises-aplus-tests').mocha(adapter);
-});
-
 describe('unhandledRejection/rejectionHandled events', function () {
 	var slice = Array.prototype.slice;
 	var events;
@@ -234,4 +213,25 @@ describe('unhandledRejection/rejectionHandled events', function () {
 	function nextLoop(fn) {
 		setTimeout(fn, 0);
 	}
+});
+
+describe('Promises/A+ Tests', function () {
+	var adapter = {
+		deferred: function () {
+			var resolve;
+			var reject;
+			var promise = new Promise(function (res, rej) {
+				resolve = res;
+				reject = rej;
+			});
+
+			return {
+				promise: promise,
+				resolve: resolve,
+				reject: reject
+			};
+		}
+	};
+
+	require('promises-aplus-tests').mocha(adapter);
 });
