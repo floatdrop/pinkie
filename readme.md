@@ -43,7 +43,7 @@ new Promise(function (resolve, reject) {
 
 ### API
 
-`pinkie` exports bare [ES2015 Promise](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-promise-objects) implementation. In case you forgot:
+`pinkie` exports bare [ES2015 Promise](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-promise-objects) implementation and polyfills [Node.js rejection events](https://nodejs.org/api/process.html#process_event_unhandledrejection). In case you forgot:
 
 #### new Promise(executor)
 
