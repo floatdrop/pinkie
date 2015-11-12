@@ -5,6 +5,7 @@ var SETTLED = 'settled';
 var FULFILLED = 'fulfilled';
 var REJECTED = 'rejected';
 var NOOP = function () {};
+var isNode = typeof process !== 'undefined' && typeof process.emit === 'function';
 
 var asyncSetTimer = typeof setImmediate === 'undefined' ? setTimeout : setImmediate;
 var asyncQueue = [];
@@ -154,6 +155,13 @@ function publishFulfillment(promise) {
 function publishRejection(promise) {
 	promise._state = REJECTED;
 	publish(promise);
+	if (!promise._handled && isNode) {
+		process.emit('unhandledRejection', promise._data, promise);
+	}
+}
+
+function notifyRejectionHandled(promise) {
+	process.emit('rejectionHandled', promise);
 }
 
 /**
@@ -179,6 +187,7 @@ Promise.prototype = {
 	_state: PENDING,
 	_then: null,
 	_data: undefined,
+	_handled: false,
 
 	then: function (onFulfillment, onRejection) {
 		var subscriber = {
@@ -187,6 +196,13 @@ Promise.prototype = {
 			fulfilled: onFulfillment,
 			rejected: onRejection
 		};
+
+		if (onRejection && !this._handled) {
+			this._handled = true;
+			if (this._state === REJECTED && isNode) {
+				asyncCall(notifyRejectionHandled, this);
+			}
+		}
 
 		if (this._state === FULFILLED || this._state === REJECTED) {
 			// already resolved, call callback async
