@@ -197,7 +197,7 @@ Promise.prototype = {
 			rejected: onRejection
 		};
 
-		if (onRejection && !this._handled) {
+		if ((onRejection || onFulfillment) && !this._handled) {
 			this._handled = true;
 			if (this._state === REJECTED && isNode) {
 				asyncCall(notifyRejectionHandled, this);
