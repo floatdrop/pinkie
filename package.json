@@ -26,6 +26,7 @@
     "es6"
   ],
   "devDependencies": {
+    "core-assert": "^0.1.1",
     "coveralls": "^2.11.4",
     "mocha": "*",
     "nyc": "^3.2.2",

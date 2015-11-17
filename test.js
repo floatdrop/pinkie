@@ -2,7 +2,7 @@
 
 'use strict';
 
-var assert = require('assert');
+var assert = require('core-assert');
 var Promise = require('./');
 
 describe('Promise', function () {
@@ -189,7 +189,7 @@ describe('unhandledRejection/rejectionHandled events', function () {
 
 	it('should not emit any events if handled before the next turn', function (done) {
 		var promise = Promise.reject(new Error('handled immediately after rejection'));
-		promise.catch(function () {});
+		promise.catch(noop);
 		nextLoop(function () {
 			assert.deepEqual(events, []);
 			done();
@@ -199,7 +199,7 @@ describe('unhandledRejection/rejectionHandled events', function () {
 	it('should emit a rejectionHandled event if handledLater', function (done) {
 		var promise = Promise.reject(new Error('eventually handled'));
 		nextLoop(function () {
-			promise.catch(function () {});
+			promise.catch(noop);
 			nextLoop(function () {
 				assert.deepEqual(events, [
 					['unhandledRejection', ['eventually handled', promise]],
@@ -210,27 +210,80 @@ describe('unhandledRejection/rejectionHandled events', function () {
 		});
 	});
 
+	it('should not emit any events when handled by a chained promise', function (done) {
+		var promise = Promise.reject(new Error('chained'));
+		promise
+			.then(noop)
+			.then(noop)
+			.then(noop)
+			.catch(noop);
+		later(function () {
+			assert.deepStrictEqual(events, []);
+			done();
+		});
+	});
+
+	it('catch() should only emit rejectionHandled one branch of a forked promise chain at a time', function (done) {
+		var def = deferred();
+		var root = def.promise;
+
+		// build the first branch
+		root.then(noop).then(noop).catch(noop);
+
+		// build the second branch
+		var b1 = root.then(noop).then(noop);
+
+		def.reject(new Error('branching'));
+
+		var c;
+
+		later(step1);
+
+		function step1() {
+			b1.catch(noop);
+			c = root.then(noop);
+			later(step2);
+		}
+
+		function step2() {
+			assert.deepStrictEqual(events, [
+				['unhandledRejection', ['branching', b1]],
+				['rejectionHandled', [b1]],
+				['unhandledRejection', ['branching', c]]
+			]);
+			done();
+		}
+	});
+
+	function noop() {}
+
 	function nextLoop(fn) {
 		setImmediate(fn);
 	}
+
+	function later(fn) {
+		setTimeout(fn, 40);
+	}
 });
+
+function deferred() {
+	var resolve;
+	var reject;
+	var promise = new Promise(function (res, rej) {
+		resolve = res;
+		reject = rej;
+	});
+
+	return {
+		promise: promise,
+		resolve: resolve,
+		reject: reject
+	};
+}
 
 describe('Promises/A+ Tests', function () {
 	var adapter = {
-		deferred: function () {
-			var resolve;
-			var reject;
-			var promise = new Promise(function (res, rej) {
-				resolve = res;
-				reject = rej;
-			});
-
-			return {
-				promise: promise,
-				resolve: resolve,
-				reject: reject
-			};
-		}
+		deferred: deferred
 	};
 
 	require('promises-aplus-tests').mocha(adapter);
